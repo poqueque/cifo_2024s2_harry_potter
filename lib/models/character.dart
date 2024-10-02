@@ -11,8 +11,19 @@ class Character {
   final int strenght;
   final int magic;
   final int speed;
+  int totalReviews = 0;
+  int _totalRatings = 0;
+  double get average {
+    if (totalReviews == 0) return 0;
+    return _totalRatings / totalReviews;
+  }
 
-  const Character(
+  void addRating(int value){
+    totalReviews ++;
+    _totalRatings += value;
+  }
+
+  Character(
       {required this.name,
       this.imageUrl,
       required this.strenght,
@@ -20,7 +31,7 @@ class Character {
       required this.speed});
 }
 
-List<Character> characters = const [
+List<Character> characters = [
   Character(
     name: "Harry Potter",
     imageUrl: Character.harryUrl,

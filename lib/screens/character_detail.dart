@@ -1,48 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harry_potter/models/character.dart';
+import 'package:harry_potter/widgets/rating.dart';
 
-class CharacterDetail extends StatelessWidget {
+class CharacterDetail extends StatefulWidget {
   const CharacterDetail({super.key, required this.character});
 
   final Character character;
 
   @override
+  State<CharacterDetail> createState() => _CharacterDetailState();
+}
+
+class _CharacterDetailState extends State<CharacterDetail> {
+  int lastClickedStars = 0;
+
+  @override
   Widget build(BuildContext context) {
-    var imageUrl = character.imageUrl ?? Character.harryUrl;
+    var imageUrl = widget.character.imageUrl ?? Character.harryUrl;
     return Scaffold(
       appBar: AppBar(
-        title: Text("${character.name} details"),
+        title: Text("${widget.character.name} details"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Hero(
-            tag: character.name,
-            child: Image.network(imageUrl)),
-          const Row(
+          Hero(tag: widget.character.name, child: Image.network(imageUrl)),
+          Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.star),
-                  Icon(Icons.star),
-                  Icon(Icons.star),
-                  Icon(Icons.star_border),
-                  Icon(Icons.star_border),
-                ],
-              ),
-              Text("89 reviews"),
+              Rating(value: widget.character.average),
+              Text("${widget.character.totalReviews} reviews"),
             ],
           ),
           Text(
-            character.name,
+            widget.character.name,
             style: TextStyle(
               fontSize: 28,
               fontFamily: GoogleFonts.montserrat().fontFamily,
               fontWeight: FontWeight.bold,
             ),
+          ),
+          Rating(
+            value: lastClickedStars.toDouble(),
+            color: Colors.deepPurple,
+            onStarClicked: (int i) {
+              lastClickedStars = i;
+              widget.character.addRating(i);
+              setState(() {});
+            },
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -51,30 +57,26 @@ class CharacterDetail extends StatelessWidget {
                 children: [
                   const Icon(Icons.fitness_center),
                   const Text("Força"),
-                  Text("${character.strenght}"),
+                  Text("${widget.character.strenght}"),
                 ],
               ),
               Column(
                 children: [
                   const Icon(Icons.auto_fix_normal),
                   const Text("Màgia"),
-                  Text("${character.magic}"),
+                  Text("${widget.character.magic}"),
                 ],
               ),
               Column(
                 children: [
                   const Icon(Icons.speed),
                   const Text("Velocitat"),
-                  Text("${character.speed}"),
+                  Text("${widget.character.speed}"),
                 ],
               ),
             ],
           )
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pop(context),
-        child: const Icon(Icons.close),
       ),
     );
   }
