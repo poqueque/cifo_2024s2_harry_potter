@@ -6,6 +6,7 @@ class Character {
   static const String hermioneUrl =
       "https://static.wikia.nocookie.net/warnerbros/images/3/3e/Hermione.jpg/revision/latest/scale-to-width-down/1000?cb=20120729103114&path-prefix=es";
 
+  final int id;
   final String name;
   final String? imageUrl;
   final int strenght;
@@ -17,40 +18,19 @@ class Character {
     if (totalReviews == 0) return 0;
     return _totalRatings / totalReviews;
   }
+  bool favorite = false;
 
-  void addRating(int value){
-    totalReviews ++;
+  void addRating(int value) {
+    totalReviews++;
     _totalRatings += value;
   }
 
-  Character(
-      {required this.name,
-      this.imageUrl,
-      required this.strenght,
-      required this.magic,
-      required this.speed});
+  Character({
+    required this.id,
+    required this.name,
+    this.imageUrl,
+    required this.strenght,
+    required this.magic,
+    required this.speed,
+  });
 }
-
-List<Character> characters = [
-  Character(
-    name: "Harry Potter",
-    imageUrl: Character.harryUrl,
-    strenght: 9,
-    magic: 10,
-    speed: 8,
-  ),
-  Character(
-    name: "Ron Weasley",
-    imageUrl: Character.ronUrl,
-    strenght: 8,
-    magic: 6,
-    speed: 9,
-  ),
-  Character(
-    name: "Hermione Granger",
-    imageUrl: Character.hermioneUrl,
-    strenght: 10,
-    magic: 9,
-    speed: 7,
-  ),
-];
