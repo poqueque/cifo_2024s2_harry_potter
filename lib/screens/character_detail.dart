@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harry_potter/models/character.dart';
+import 'package:harry_potter/providers/hogwarts_data.dart';
 import 'package:harry_potter/widgets/rating.dart';
+import 'package:provider/provider.dart';
 
 class CharacterDetail extends StatefulWidget {
-  const CharacterDetail({super.key, required this.character});
+  const CharacterDetail({super.key, required this.id});
 
-  final Character character;
+  final int id;
 
   @override
   State<CharacterDetail> createState() => _CharacterDetailState();
 }
 
 class _CharacterDetailState extends State<CharacterDetail> {
-  var lastValueClicked = 0;
+  int lastClickedStars = 0;
+  late Character character;
+
+  @override
+  void initState() {
+    super.initState();
+    character = context.read<HogwartsData>().getCharacter(widget.id);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +34,34 @@ class _CharacterDetailState extends State<CharacterDetail> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Hero(tag: widget.character.name, child: Image.network(imageUrl)),
+          Hero(tag: character.name, child: Image.network(imageUrl)),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Rating(value: widget.character.ratingAverage),
-              Text("${widget.character.totalReviews} reviews"),
+              Rating(value: character.average),
+              Text("${character.totalReviews} reviews"),
+              Consumer<HogwartsData>(
+                builder: (context, hogwartsData, child) {
+                  return InkWell(
+                    onTap: () {
+                      hogwartsData.toggleFavorite(character.id);
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Icon(
+                            (character.favorite)
+                                ? Icons.favorite
+                                : Icons.favorite_border,
+                            color: Colors.deepPurple,
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              )
             ],
           ),
           Text(
@@ -42,11 +73,11 @@ class _CharacterDetailState extends State<CharacterDetail> {
             ),
           ),
           Rating(
-            value: lastValueClicked.toDouble(),
-            onClick: (int value) {
-              lastValueClicked = value;
-              widget.character.totalReviews++;
-              widget.character.totalRatings += value;
+            value: lastClickedStars.toDouble(),
+            color: Colors.deepPurple,
+            onStarClicked: (int i) {
+              lastClickedStars = i;
+              context.read<HogwartsData>().addRating(widget.id, i);
               setState(() {});
             },
           ),
