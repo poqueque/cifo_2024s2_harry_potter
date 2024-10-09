@@ -26,10 +26,10 @@ class _CharacterDetailState extends State<CharacterDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var imageUrl = widget.character.imageUrl ?? Character.harryUrl;
+    var imageUrl = character.imageUrl ?? Character.harryUrl;
     return Scaffold(
       appBar: AppBar(
-        title: Text("${widget.character.name} details"),
+        title: Text("${character.name} details"),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -65,7 +65,7 @@ class _CharacterDetailState extends State<CharacterDetail> {
             ],
           ),
           Text(
-            widget.character.name,
+            character.name,
             style: TextStyle(
               fontSize: 28,
               fontFamily: GoogleFonts.montserrat().fontFamily,
@@ -88,21 +88,21 @@ class _CharacterDetailState extends State<CharacterDetail> {
                 children: [
                   const Icon(Icons.fitness_center),
                   const Text("Força"),
-                  Text("${widget.character.strenght}"),
+                  Text("${character.strenght}"),
                 ],
               ),
               Column(
                 children: [
                   const Icon(Icons.auto_fix_normal),
                   const Text("Màgia"),
-                  Text("${widget.character.magic}"),
+                  Text("${character.magic}"),
                 ],
               ),
               Column(
                 children: [
                   const Icon(Icons.speed),
                   const Text("Velocitat"),
-                  Text("${widget.character.speed}"),
+                  Text("${character.speed}"),
                 ],
               ),
             ],
