@@ -10,6 +10,7 @@ class HogwartsData extends ChangeNotifier {
       strenght: 9,
       magic: 10,
       speed: 8,
+      birthDate: DateTime(1980, 7, 31),
     ),
     Character(
       id: 2,
@@ -18,6 +19,7 @@ class HogwartsData extends ChangeNotifier {
       strenght: 8,
       magic: 6,
       speed: 9,
+      birthDate: DateTime(1980, 3, 1),
     ),
     Character(
       id: 3,
@@ -26,6 +28,7 @@ class HogwartsData extends ChangeNotifier {
       strenght: 10,
       magic: 9,
       speed: 7,
+      birthDate: DateTime(1979, 9, 19),
     ),
   ];
 

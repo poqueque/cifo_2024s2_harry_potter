@@ -12,6 +12,9 @@ class Character {
   final int strenght;
   final int magic;
   final int speed;
+
+  final DateTime birthDate;
+
   int totalReviews = 0;
   int _totalRatings = 0;
   double get average {
@@ -32,5 +35,6 @@ class Character {
     required this.strenght,
     required this.magic,
     required this.speed,
+    required this.birthDate,
   });
 }

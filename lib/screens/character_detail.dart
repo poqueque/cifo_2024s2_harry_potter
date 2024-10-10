@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:harry_potter/extensions/date_extension.dart';
 import 'package:harry_potter/models/character.dart';
 import 'package:harry_potter/providers/hogwarts_data.dart';
 import 'package:harry_potter/widgets/rating.dart';
@@ -71,6 +72,13 @@ class _CharacterDetailState extends State<CharacterDetail> {
               fontFamily: GoogleFonts.montserrat().fontFamily,
               fontWeight: FontWeight.bold,
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(character.birthDate.readableDate),
+              Text("  (${character.birthDate.getAge()} anys)")
+            ],
           ),
           Rating(
             value: lastClickedStars.toDouble(),
