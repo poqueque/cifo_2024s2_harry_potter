@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:harry_potter/models/character.dart';
+import 'package:harry_potter/services/database.dart';
 
 class HogwartsData extends ChangeNotifier {
-  List<Character> characters = [
+  HogwartsData() {
+    init();
+  }
+
+  List<Character> characters = [];
+
+  List<Character> initialCharacters = [
     Character(
-      id: 1,
       name: "Harry Potter",
       imageUrl: Character.harryUrl,
       strenght: 9,
@@ -13,7 +19,6 @@ class HogwartsData extends ChangeNotifier {
       birthDate: DateTime(1980, 7, 31),
     ),
     Character(
-      id: 2,
       name: "Ron Weasley",
       imageUrl: Character.ronUrl,
       strenght: 8,
@@ -22,7 +27,6 @@ class HogwartsData extends ChangeNotifier {
       birthDate: DateTime(1980, 3, 1),
     ),
     Character(
-      id: 3,
       name: "Hermione Granger",
       imageUrl: Character.hermioneUrl,
       strenght: 10,
@@ -32,18 +36,31 @@ class HogwartsData extends ChangeNotifier {
     ),
   ];
 
+  Future<void> init() async {
+    characters = await Database.instance.getAllCharacters();
+    if (characters.isEmpty) {
+      for (var character in initialCharacters) {
+        await Database.instance.updateCharacter(character);
+      }
+      characters = await Database.instance.getAllCharacters();
+    }
+    notifyListeners();
+  }
+
   Character getCharacter(int id) =>
       characters.firstWhere((element) => element.id == id);
 
   void addRating(int id, int value) {
     Character character = getCharacter(id);
     character.addRating(value);
+    Database.instance.updateCharacter(character);
     notifyListeners();
   }
 
   void toggleFavorite(int id) {
     Character character = getCharacter(id);
     character.favorite = !character.favorite;
+    Database.instance.updateCharacter(character);
     notifyListeners();
   }
 }

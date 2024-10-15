@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harry_potter/providers/hogwarts_data.dart';
+import 'package:harry_potter/providers/preferences.dart';
 import 'package:harry_potter/screens/character_list.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +14,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => HogwartsData(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => HogwartsData()),
+        ChangeNotifierProvider(create: (context) => Preferences()),
+      ],
       child: MaterialApp(
         theme: ThemeData(
           fontFamily: GoogleFonts.montserrat().fontFamily,
