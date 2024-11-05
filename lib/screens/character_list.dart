@@ -6,23 +6,29 @@ import 'package:harry_potter/screens/character_detail.dart';
 import 'package:provider/provider.dart';
 
 class CharacterList extends StatelessWidget {
-  const CharacterList({super.key});
+  const CharacterList(
+      {super.key, this.showAppBar = true, this.onCharacterTapped});
+
+  final bool showAppBar;
+  final Function(int)? onCharacterTapped;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Hogwarts App"),
-        actions: [
-          Consumer<Preferences>(builder: (context, preferences, child) {
-            return Switch(
-                value: preferences.showSubtitle,
-                onChanged: (value) {
-                  preferences.setShowSubtitles(value);
-                });
-          }),
-        ],
-      ),
+      appBar: showAppBar
+          ? AppBar(
+              title: const Text("Hogwarts App"),
+              actions: [
+                Consumer<Preferences>(builder: (context, preferences, child) {
+                  return Switch(
+                      value: preferences.showSubtitle,
+                      onChanged: (value) {
+                        preferences.setShowSubtitles(value);
+                      });
+                }),
+              ],
+            )
+          : null,
       body: Consumer<HogwartsData>(builder: (context, hogwartsData, child) {
         return ListView(
           children: [
@@ -41,13 +47,17 @@ class CharacterList extends StatelessWidget {
                         ? Text("${character.totalReviews} valoracions")
                         : null,
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              CharacterDetail(id: character.id),
-                        ),
-                      );
+                      if (onCharacterTapped == null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                CharacterDetail(id: character.id),
+                          ),
+                        );
+                      } else {
+                        onCharacterTapped?.call(character.id);
+                      }
                     },
                     trailing: InkWell(
                       onTap: () {
