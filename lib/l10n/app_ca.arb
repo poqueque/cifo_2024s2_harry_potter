@@ -1,0 +1,9 @@
+{
+    "appBarText": "Aplicació de Hogwarts",
+    "strenght": "Força",
+    "magic": "Màgia",
+    "speed": "Velocitat",
+    "characterDetails": "Detalls de {characterName}",
+    "nReviews": "{count, plural, =0{sense valoracions} =1{1 valoració} other{{count} valoracions del nostre personatge guay}}",
+    "nYears": "{count, plural, =1{1 any} other{{count} anys}}"
+}

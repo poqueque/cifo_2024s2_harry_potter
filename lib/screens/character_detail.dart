@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:harry_potter/extensions/date_extension.dart';
 import 'package:harry_potter/models/character.dart';
@@ -21,6 +22,8 @@ class _CharacterDetailState extends State<CharacterDetail> {
   int lastClickedStars = 0;
   late Character character;
 
+  late AppLocalizations l;
+
   @override
   void initState() {
     super.initState();
@@ -35,11 +38,12 @@ class _CharacterDetailState extends State<CharacterDetail> {
 
   @override
   Widget build(BuildContext context) {
+    l = AppLocalizations.of(context)!;
     var imageUrl = character.imageUrl ?? Character.harryUrl;
     return Scaffold(
       appBar: widget.showAppBar
           ? AppBar(
-              title: Text("${character.name} details"),
+              title: Text(l.characterDetails(character.name)),
             )
           : null,
       body: LayoutBuilder(builder: (context, _) {
@@ -68,7 +72,11 @@ class _CharacterDetailState extends State<CharacterDetail> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Rating(value: character.average),
-                  Text("${character.totalReviews} reviews"),
+                  Flexible(
+                      child: Text(
+                    l.nReviews(character.totalReviews),
+                    textAlign: TextAlign.center,
+                  )),
                   Consumer<HogwartsData>(
                     builder: (context, hogwartsData, child) {
                       return InkWell(
@@ -105,7 +113,7 @@ class _CharacterDetailState extends State<CharacterDetail> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(character.birthDate.readableDate),
-                  Text("  (${character.birthDate.getAge()} anys)")
+                  Text("  (${l.nYears(character.birthDate.getAge())})")
                 ],
               ),
               Rating(
@@ -123,21 +131,21 @@ class _CharacterDetailState extends State<CharacterDetail> {
                   Column(
                     children: [
                       const Icon(Icons.fitness_center),
-                      const Text("Força"),
+                      Text(l.strenght),
                       Text("${character.strenght}"),
                     ],
                   ),
                   Column(
                     children: [
                       const Icon(Icons.auto_fix_normal),
-                      const Text("Màgia"),
+                      Text(l.magic),
                       Text("${character.magic}"),
                     ],
                   ),
                   Column(
                     children: [
                       const Icon(Icons.speed),
-                      const Text("Velocitat"),
+                      Text(l.speed),
                       Text("${character.speed}"),
                     ],
                   ),

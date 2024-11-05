@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:harry_potter/models/character.dart';
 import 'package:harry_potter/providers/hogwarts_data.dart';
 import 'package:harry_potter/providers/preferences.dart';
@@ -14,10 +15,11 @@ class CharacterList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations l = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: showAppBar
           ? AppBar(
-              title: const Text("Hogwarts App"),
+              title: Text(AppLocalizations.of(context)!.appBarText),
               actions: [
                 Consumer<Preferences>(builder: (context, preferences, child) {
                   return Switch(
@@ -44,7 +46,7 @@ class CharacterList extends StatelessWidget {
                             character.imageUrl ?? Character.harryUrl)),
                     title: Text(character.name),
                     subtitle: preferences.showSubtitle
-                        ? Text("${character.totalReviews} valoracions")
+                        ? Text(l.nReviews(character.totalReviews))
                         : null,
                     onTap: () {
                       if (onCharacterTapped == null) {
@@ -75,7 +77,7 @@ class CharacterList extends StatelessWidget {
                     ),
                   );
                 }),
-              )
+              ),
           ],
         );
       }),

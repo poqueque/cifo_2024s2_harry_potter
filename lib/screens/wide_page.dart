@@ -3,6 +3,7 @@ import 'package:harry_potter/providers/preferences.dart';
 import 'package:harry_potter/screens/character_detail.dart';
 import 'package:harry_potter/screens/character_list.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WidePage extends StatefulWidget {
   const WidePage({super.key, this.characterId});
@@ -16,17 +17,20 @@ class WidePage extends StatefulWidget {
 class _WidePageState extends State<WidePage> {
   int? characterId;
 
+  late AppLocalizations l;
+
   @override
   void initState() {
     super.initState();
     characterId = widget.characterId;
+    l = AppLocalizations.of(context)!;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Hogwarts App"),
+          title: Text(l.appBarText),
           actions: [
             Consumer<Preferences>(builder: (context, preferences, child) {
               return Switch(

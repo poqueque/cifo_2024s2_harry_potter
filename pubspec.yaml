@@ -9,7 +9,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   google_fonts: ^6.2.1
+  intl: any
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   path_provider: ^2.1.4
@@ -25,3 +28,4 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  generate: true
